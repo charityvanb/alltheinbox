@@ -1,48 +1,33 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Toolbar from './Components/Toolbar'
+import MessageList from './Components/MessageList'
+import Message from './Components/Message'
 
 class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      messages: [1, 2, 3]
+    }
+  }
+
+  async componentDidMount(){
+   let response = await fetch('http://localhost:8082/api/messages')
+    let myJson = await response.json()
+      this.setState({
+        messages: myJson
+      })
+    }
+
   render() {
     return (
-<div class="row toolbar">
-  <div class="col-md-12">
-    <p class="pull-right">
-      <span class="badge badge">2</span>
-      unread messages
-    </p>
-
-    <button class="btn btn-default">
-      <i class={true ? "fa fa-check-square-o" : "fa fa-minus-square-o"}></i>
-    </button>
-
-    <button class="btn btn-default">
-      Mark As Read
-    </button>
-
-    <button class="btn btn-default">
-      Mark As Unread
-    </button>
-
-    <select class="form-control label-select">
-      <option>Apply label</option>
-      <option value="dev">dev</option>
-      <option value="personal">personal</option>
-      <option value="gschool">gschool</option>
-    </select>
-
-    <select class="form-control label-select">
-      <option>Remove label</option>
-      <option value="dev">dev</option>
-      <option value="personal">personal</option>
-      <option value="gschool">gschool</option>
-    </select>
-
-    <button class="btn btn-default">
-      <i class="fa fa-trash-o"></i>
-    </button>
-  </div>
-</div>
+      <div className="App">
+      <Toolbar />
+      <MessageList messages={this.state.messages} />
+      </div>
     );
   }
 }

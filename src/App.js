@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import './App.css';
 import Toolbar from './Components/Toolbar'
 import MessageList from './Components/MessageList'
-import Message from './Components/Message'
 
 class App extends Component {
 
@@ -22,11 +21,25 @@ class App extends Component {
       })
     }
 
+  messageRead = (id) => {
+  console.log("message read", id)
+  const updatedMessages = this.state.messages.map(message => {
+  if (message.id === id) {
+  message.read = !message.read;
+}
+  return message;
+  })
+
+  this.setState({
+    messages: updatedMessages
+    })
+  }
+
   render() {
     return (
       <div className="App">
       <Toolbar />
-      <MessageList messages={this.state.messages} />
+      <MessageList messages={this.state.messages} messageRead={this.messageRead} />
       </div>
     );
   }
